@@ -1,133 +1,60 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Угадай продукт</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style.css"/>
     <script src="./product.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <header>
+    <script src="./index.js"></script>
+</head>
+<body>
+<div class="container">
+    <header>
         <h1>Угадай продукт</h1>
         <p class="game-description">
-          Проверьте свои знания о ценах продуктов! Попробуйте угадать стоимость
-          товара.
+            Проверьте свои знания о ценах продуктов! Попробуйте угадать стоимость
+            товара.
         </p>
-      </header>
+    </header>
 
-      <div class="game-content">
+    <div class="game-content">
         <div class="product-display" id="products_container">
-          <!-- Продукты будут отображены здесь -->
+            <!-- Продукты будут отображены здесь -->
         </div>
 
         <div class="game-controls">
-          <div class="score-display">Очки: <span id="score">0</span></div>
-          <input
-            type="number"
-            class="guess-input"
-            id="guess_input"
-            placeholder="Введите вашу догадку о цене"
-          />
-          <button class="guess-btn" id="guess_btn">Угадать!</button>
-          <div class="message" id="message"></div>
+            <div class="score-display">Очки: <span id="score">0</span></div>
+            <input
+                    type="number"
+                    class="guess-input"
+                    id="guess_input"
+                    placeholder="Введите вашу догадку о цене"
+            />
+            <button class="guess-btn" id="guess_btn">Угадать!</button>
+            <div class="message" id="message"></div>
         </div>
 
         <div class="game-rules">
-          <h2>Как играть?</h2>
-          <ul>
-            <li>Посмотрите на представленный продукт</li>
-            <li>Введите ваше предположение о его стоимости</li>
-            <li>Нажмите кнопку "Угадать!"</li>
-            <li>
-              Если вы угадали с точностью до 5 рублей, вы получаете 10 очков!
-            </li>
-            <li>
-              Если разница больше 5 рублей, но меньше 15, вы получаете 5 очков
-            </li>
-          </ul>
+            <h2>Как играть?</h2>
+            <ul>
+                <li>Посмотрите на представленный продукт</li>
+                <li>Введите ваше предположение о его стоимости</li>
+                <li>Нажмите кнопку "Угадать!"</li>
+                <li>
+                    Если вы угадали с точностью до 5 рублей, вы получаете 10 очков!
+                </li>
+                <li>
+                    Если разница больше 5 рублей, но меньше 15, вы получаете 5 очков
+                </li>
+            </ul>
         </div>
-      </div>
-
-      <footer>
-        <p>© 2023 Угадай продукт. Все права защищены.</p>
-      </footer>
     </div>
 
-    <script>
-      // Ожидаем полной загрузки DOM
-      document.addEventListener("DOMContentLoaded", function () {
+    <footer>
+        <p>© 2023 Угадай продукт. Все права защищены.</p>
+    </footer>
+</div>
 
-        const productsContainer = document.getElementById("products_container");
-        const guessInput = document.getElementById("guess_input");
-        const guessBtn = document.getElementById("guess_btn");
-        const messageEl = document.getElementById("message");
-        const scoreEl = document.getElementById("score");
-
-        let currentProduct = null;
-        let score = 0;
-
-        // Функция для проверки догадки
-        const checkGuess = () => {
-          const userGuess = parseFloat(guessInput.value);
-
-          // Проверяем, введено ли число
-          if (isNaN(userGuess)) {
-            messageEl.textContent = "Пожалуйста, введите число!";
-            messageEl.className = "message error";
-            return;
-          }
-
-          // Вычисляем разницу между догадкой и реальной ценой
-          const difference = Math.abs(userGuess - currentProduct.price);
-          let points = 0;
-
-          // Определяем количество очков в зависимости от точности
-          if (difference <= 5) {
-            points = 10;
-            messageEl.textContent = `Отлично! Вы угадали с точностью до 5 рублей! +${points} очков`;
-            messageEl.className = "message success";
-          } else if (difference <= 15) {
-            points = 5;
-            messageEl.textContent = `Хорошо! Разница всего ${difference.toFixed(
-              2
-            )} рублей. +${points} очков`;
-            messageEl.className = "message hint";
-          } else {
-            messageEl.textContent = `Попробуйте ещё! Разница: ${difference.toFixed(
-              2
-            )} рублей. Реальная цена: ${currentProduct.price} руб.`;
-            messageEl.className = "message error";
-          }
-
-          // Обновляем счет
-          score += points;
-          scoreEl.textContent = score;
-
-          // Показываем реальную цену
-          const productCostEl =
-            productsContainer.querySelector(".product-cost");
-          productCostEl.textContent = `${currentProduct.price.toFixed(2)} ₽`;
-          productCostEl.style.color = "#27ae60";
-
-          // Через 2 секунды показываем новый продукт
-          setTimeout(displayRandomProduct, 2000);
-        };
-
-        // Инициализация игры
-        currentProduct = displayRandomProduct();
-
-        // Обработчик события для кнопки
-        guessBtn.addEventListener("click", checkGuess);
-
-        // Обработчик события для клавиши Enter
-        guessInput.addEventListener("keypress", function (e) {
-          if (e.key === "Enter") {
-            checkGuess();
-          }
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>
