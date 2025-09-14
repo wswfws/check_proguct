@@ -1,42 +1,43 @@
 const elements = document.querySelectorAll('.chakra-link');
 
 function parseProduct(doc) {
-
-    // Извлекаем название товара - используем селектор по itemprop="name"
+    // Название
     const titleElement = doc.querySelector('[itemprop="name"]');
     const title = titleElement ? titleElement.textContent.trim() : null;
 
-    // Извлекаем цену (используем атрибут content элемента с itemprop="price")
+    // Цена
     const priceElement = doc.querySelector('[itemprop="price"]');
     let price = null;
 
     if (priceElement) {
-        // Пытаемся получить цену из атрибута content
         const priceContent = priceElement.getAttribute('content');
         if (priceContent) {
             price = parseFloat(priceContent);
         } else {
-            // Если content нет, пробуем извлечь из текста
             const priceText = priceElement.textContent.trim();
-            price = parseFloat(priceText.replace(',', '.')); // Заменяем запятую на точку
+            price = parseFloat(priceText.replace(',', '.'));
         }
     }
 
+    // Картинка
+    const imageElement = doc.querySelector('[itemprop="image"]');
+    const image = imageElement ? imageElement.getAttribute('src') : null;
+
     return {
         title: title,
-        price: price
+        price: price,
+        image: image
     };
 }
 
 const infos = [];
 
-// Iterate over the found elements (example)
 elements.forEach(element => {
     if (!element.className.includes("productCard")) {
-        return
+        return;
     }
     const product_info = parseProduct(element);
-    infos.push(product_info)
+    infos.push(product_info);
 });
 
-console.log(infos)
+console.log(infos);
