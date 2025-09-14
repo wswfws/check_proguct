@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         productCostEl.style.color = "#27ae60";
 
         // Через 2 секунды показываем новый продукт
-        setTimeout(displayRandomProduct, CHECK_GUESS_TIMER);
+        setTimeout(startNewGuess, CHECK_GUESS_TIMER);
     };
 
     const guessInput = document.getElementById("guess_input");
@@ -60,8 +60,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentProduct = null;
     let score = 0;
 
-    // Инициализация игры
-    currentProduct = displayRandomProduct();
+    const startNewGuess = () => {
+        currentProduct = displayRandomProduct();
+    }
+
+    startNewGuess()
 
     // Обработчик события для кнопки
     guessBtn.addEventListener("click", checkGuess);
