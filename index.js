@@ -19,24 +19,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Вычисляем разницу между догадкой и реальной ценой
-        const difference = Math.abs(userGuess - currentProduct.price);
+        const difference = Math.abs(userGuess - currentProduct.price) / currentProduct.price * 100;
         let points = 0;
 
         // Определяем количество очков в зависимости от точности
         if (difference <= 5) {
             points = 10;
-            messageEl.textContent = `Отлично! Вы угадали с точностью до 5 рублей! +${points} очков`;
+            messageEl.textContent = `Отлично! Вы угадали с точностью до 5%! +${points} очков`;
             messageEl.className = "message success";
         } else if (difference <= 15) {
             points = 5;
             messageEl.textContent = `Хорошо! Разница всего ${difference.toFixed(
                 2
-            )} рублей. +${points} очков`;
+            )}%. +${points} очков`;
             messageEl.className = "message hint";
         } else {
             messageEl.textContent = `Попробуйте ещё! Разница: ${difference.toFixed(
                 2
-            )} рублей. Реальная цена: ${currentProduct.price} руб.`;
+            )}%. Реальная цена: ${currentProduct.price} руб.`;
             messageEl.className = "message error";
         }
 
